@@ -4,6 +4,7 @@ My way of dealing with exploit bots that attack our WWW servers.
 
 ### Step 1. Locate the issue...
 
+```
 149.28.132.x - - [28/Apr/2022:06:54:15 -0500] "GET / HTTP/1.1" 200 65764
 149.28.132.x - - [28/Apr/2022:06:54:20 -0500] "GET / HTTP/1.1" 200 65787
 149.28.132.x - - [28/Apr/2022:06:54:25 -0500] "GET /wp-includes/wlwmanifest.xml HTTP/1.1" 404 59
@@ -26,15 +27,19 @@ My way of dealing with exploit bots that attack our WWW servers.
 149.28.132.x - - [28/Apr/2022:06:54:33 -0500] "GET /site/wp-includes/wlwmanifest.xml HTTP/1.1" 404 59
 149.28.132.x - - [28/Apr/2022:06:54:34 -0500] "GET /cms/wp-includes/wlwmanifest.xml HTTP/1.1" 404 59
 149.28.132.x - - [28/Apr/2022:06:54:34 -0500] "GET /sito/wp-includes/wlwmanifest.xml HTTP/1.1" 404 59
+```
 
 ### Step 2. Come up with solution...
 
+```
 #### Create the file location and file they are searching.
 #### So for instance if they are searching /wp-login.php on a NON wordpress page.
 #### Create /wp-login.php + /loop.php
 ##### loop.php <?php echo "<meta http-equiv='refresh' content='0;url=wp-login.php'>"; ?>
 ##### wp-login.php <?php echo "<meta http-equiv='refresh' content='0;url=loop.php'>"; ?>
+```
 
+```
 /wp-login.php HTTP/1.1" 404 59
 / HTTP/1.1" 200 65764
 / HTTP/1.1" 200 65787
@@ -57,5 +62,5 @@ My way of dealing with exploit bots that attack our WWW servers.
 /site/wp-includes/wlwmanifest.xml HTTP/1.1" 404 59
 /cms/wp-includes/wlwmanifest.xml HTTP/1.1" 404 59
 /sito/wp-includes/wlwmanifest.xml HTTP/1.1" 404 59
-
+```
 ### Step 3. Do this for all the following PHP searches that exploit bots are seeking.
